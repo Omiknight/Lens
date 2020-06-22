@@ -1,0 +1,145 @@
+package com.qiyi.lens.ui.viewinfo;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.RectF;
+import android.text.Layout;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.qiyi.lenssdk.R;
+
+public class Widget {
+
+    private View view;
+    private RectF originRect = new RectF();
+    private RectF rect = new RectF();
+    private Widget parent;
+    private int offset;
+    // debug info : bg 242424 ;
+    private final static int TEXT_DEBUG_INFO_COLOR = 0x4169E1;
+    private DrawKit mKit;
+
+    Widget(DrawKit drawKit, View view, int offset) {
+        this.view = view;
+        this.offset = offset;
+        initRect(offset);
+        originRect.set(rect.left, rect.top, rect.right, rect.bottom);
+        mKit = drawKit;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public RectF getRect() {
+        return rect;
+    }
+
+    public RectF getOriginRect() {
+        return originRect;
+    }
+
+    private void initRect(int offset) {
+        int[] position = new int[2];
+        view.getLocationOnScreen(position);
+        int width = view.getWidth();
+        int height = view.getHeight();
+
+        int left = position[0];
+        int right = left + width;
+        int top = position[1];
+
+        top -= offset;
+        int bottom = top + height;
+
+        rect.set(left, top, right, bottom);
+    }
+
+    public Widget getParent() {
+        if (parent == null) {
+            Object parentView = view.getParent();
+            if (parentView instanceof View) {
+                parent = new Widget(mKit, (View) parentView, offset);
+            }
+        }
+        return parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Widget widget = (Widget) o;
+        return view != null ? view.equals(widget.view) : widget.view == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return view != null ? view.hashCode() : 0;
+    }
+
+
+    //[check if x,y is inside current widget ]
+    public boolean contains(int x, int y) {
+        if (rect.contains(x, y)) {
+            View view = getView();
+            if (view instanceof ViewGroup) {
+                //[if is view group && bg is null : check children]
+                if (view.getBackground() == null && ((ViewGroup) view).getChildCount() == 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isViewVisible() {
+        return view.getVisibility() == View.VISIBLE;
+    }
+
+
+    /**
+     * 绘制普通视图基础信息
+     */
+    public void draw(Canvas canvas) {
+        View view = getView();
+        Object debugTag = view.getTag(R.id.lens_debug_info_tag);
+        if (debugTag instanceof String) {
+            Object color = view.getTag(R.id.lens_debug_info_tag_text_color);
+            if (color instanceof Integer) {
+                mKit.pushColor((Integer) color);
+            } else {
+                mKit.pushColor(TEXT_DEBUG_INFO_COLOR);
+            }
+            mKit.drawDebugInfo(canvas, (String) debugTag, getRect());
+            mKit.popColor();
+        } else if (view instanceof TextView) {
+            //draw text view info
+            TextView textView = (TextView) view;
+            // 绘制行间距
+            if (textView.getLineCount() > 1) {
+
+                RectF rect = getRect();
+                Layout layout = textView.getLayout();
+                if (layout != null) {
+                    int ascent = layout.getLineAscent(0);
+                    float start = textView.getBaseline() + rect.top - layout.getTopPadding() + textView.getPaddingTop();
+                    RectF first = new RectF(rect.left, start + ascent, rect.right,
+                            start + ascent + textView.getTextSize());
+                    float lineSpacing = textView.getLineHeight() - textView.getTextSize();
+                    float top2 = first.bottom + lineSpacing;
+                    RectF second = new RectF(rect.left, top2, rect.right, top2 + textView.getTextSize());
+                    mKit.drawDistance(canvas, first, second);
+                    mKit.drawArea(canvas, first, Color.WHITE);
+                    mKit.drawArea(canvas, second, Color.WHITE);
+                }
+            }
+
+        }
+    }
+
+
+}

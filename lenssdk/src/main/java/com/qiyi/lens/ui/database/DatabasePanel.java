@@ -1,0 +1,123 @@
+package com.qiyi.lens.ui.database;
+
+import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.SparseArray;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.qiyi.lens.ui.FloatingPanel;
+import com.qiyi.lens.ui.FullScreenPanel;
+import com.qiyi.lens.ui.UIStateCallBack;
+import com.qiyi.lens.utils.SimpleTask;
+import com.qiyi.lenssdk.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, View.OnClickListener {
+
+    private Context mContext;
+    private DBRecyclerView mRecyclerView;
+    private CommonDBAdapter mAdapter;
+    private TextView panelTitle;
+    private DatabaseTableListPanel tablePanel;
+
+    private boolean isBase = true;
+
+    public DatabasePanel(FloatingPanel panel) {
+        super(panel);
+        mContext = context;
+    }
+
+    @Override
+    protected View onCreateView(ViewGroup viewGroup) {
+        View content = inflateView(R.layout.lens_database_panel, viewGroup);
+        content.findViewById(R.id.len_title_bar_back).setOnClickListener(this);
+        panelTitle = content.findViewById(R.id.len_title_bar_title);
+        setTitle(mContext.getString(R.string.lens_common_title_bar_database));
+        mRecyclerView = content.findViewById(R.id.len_database_recycler_view);
+        installRecyclerView(mRecyclerView);
+        return content;
+    }
+
+    void setTitle(String title) {
+        panelTitle.setText(title);
+    }
+
+    void setBase(boolean base) {
+        isBase = base;
+    }
+
+
+    public CommonDBAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    private void installRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setBackgroundColor(mContext.getResources().getColor(R.color.recycler_view_bg));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        GradientDrawable horizontalDrawable = new GradientDrawable();
+        horizontalDrawable.setColor(0xffE5E5E5);
+        horizontalDrawable.setSize(0, 1);
+        divider.setDrawable(horizontalDrawable);
+        recyclerView.addItemDecoration(divider);
+        mAdapter = new CommonDBAdapter();
+        mAdapter.setListener(new CommonDBAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, BaseItem item) {
+                if (tablePanel == null) {
+                    tablePanel = new DatabaseTableListPanel(getFloatingPanel());
+                }
+                tablePanel.show();
+                tablePanel.refreshTables(item);
+            }
+        });
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onViewCreated(View root) {
+        super.onViewCreated(root);
+        if (isBase) { //子类中设置为false 避免loadData()覆盖子类的数据
+            loadData();
+        }
+    }
+
+    private void loadData() {
+        showLoading();
+        new SimpleTask<>(new SimpleTask.Callback<Void, List<BaseItem>>() {
+            @Override
+            public List<BaseItem> doInBackground(Void[] params) {
+                SparseArray<String> databaseNames = LensProvider.get().getDatabases().getDatabaseNames();
+                List<BaseItem> data = new ArrayList<>(databaseNames.size());
+                for (int i = 0; i < databaseNames.size(); i++) {
+                    data.add(new DBItem(databaseNames.valueAt(i), databaseNames.keyAt(i)));
+                }
+                return data;
+            }
+
+            @Override
+            public void onPostExecute(List<BaseItem> result) {
+                hideLoading();
+                mAdapter.setItems(result);
+            }
+        }).execute();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.len_title_bar_back) {
+            dismiss();
+        }
+    }
+
+}
