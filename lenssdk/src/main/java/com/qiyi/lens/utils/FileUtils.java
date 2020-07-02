@@ -54,6 +54,7 @@ public class FileUtils {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
         }
         return file;
@@ -138,19 +139,21 @@ public class FileUtils {
 
 
     public static boolean writeStringToFile(File fileDir, String fileName, String obj) {
+        FileWriter fr = null;
         try {
             File extFile = createFile(fileDir, fileName);
             if (extFile != null) {
-                FileWriter fr = new FileWriter(extFile);
+                fr = new FileWriter(extFile);
                 fr.write(obj);
                 fr.flush();
-                fr.close();
             } else {
                 return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            FileUtils.closeSafely(fr);
         }
         return true;
     }
@@ -282,7 +285,9 @@ public class FileUtils {
     }
 
     public static void closeSafely(Closeable closeable) {
-        silentlyCloseCloseable(closeable);
+        if (closeable != null) {
+            silentlyCloseCloseable(closeable);
+        }
     }
 
 

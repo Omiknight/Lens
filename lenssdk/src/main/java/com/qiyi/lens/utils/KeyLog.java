@@ -173,6 +173,7 @@ public class KeyLog {
         combineCacheFiles();
     }
 
+    //todo optimize
     private void combineCacheFiles() {
         checkHandler();
         handler.post(new Runnable() {
@@ -197,6 +198,7 @@ public class KeyLog {
                             } else {
                                 File cacheFile1 = createFile(CACHE_FILE_NAME_TEMP[(currentCacheFilePos - 1) % 2]);
                                 if (cacheFile1 != null) {
+                                    FileUtils.closeSafely(reader);
                                     reader = new BufferedReader(new FileReader(cacheFile1));
                                 } else {
                                     reader = null;
@@ -207,7 +209,8 @@ public class KeyLog {
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
-                        if (writer != null) FileUtils.closeSafely(writer);
+                        FileUtils.closeSafely(writer);
+                        FileUtils.closeSafely(reader);
                     }
                 }
             }

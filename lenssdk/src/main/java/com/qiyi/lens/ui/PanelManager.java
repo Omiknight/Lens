@@ -36,7 +36,7 @@ public class PanelManager {
             // 视图拾取面板，需要将浮动面板提到最前面
         } else if (panel instanceof SelectViewPanel) {
             SelectViewPanel selectViewPanel = (SelectViewPanel) panel;
-            if (selectViewPanel.shouldBringTofront()) {
+            if (pl != null && selectViewPanel.shouldBringTofront()) {
                 FloatingPanel floatingPanel = (FloatingPanel) pl;
                 floatingPanel.bringToFront();
             }

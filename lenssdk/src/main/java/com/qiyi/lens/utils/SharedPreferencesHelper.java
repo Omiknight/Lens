@@ -65,13 +65,11 @@ public class SharedPreferencesHelper {
     }
 
     private SharedPreferencesHelper(Context context) {
-        mAppContext = context == null ?
-                context : context;
+        mAppContext = context.getApplicationContext();
     }
 
     private SharedPreferencesHelper(Context context, String prefName) {
-        mAppContext = context == null ?
-                context : context;
+        mAppContext = context.getApplicationContext();
         initSharedPreferences(prefName);
     }
 
