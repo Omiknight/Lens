@@ -93,7 +93,9 @@ public class RadioBoxContent extends ValueContent implements View.OnClickListene
         int id = v.getId();
         _value.setIndex(_key, id);
         String[] vars = _value.toContentVars();
-        bindViews(vars, null);
+        if(vars != null) {
+            bindViews(vars, null);
+        }
 
     }
 }

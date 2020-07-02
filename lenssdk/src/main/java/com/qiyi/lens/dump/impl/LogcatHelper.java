@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.qiyi.lens.dump.impl.anotaion.LogcatDump;
 import com.qiyi.lens.utils.ApplicationLifecycle;
+import com.qiyi.lens.utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,6 +25,7 @@ public class LogcatHelper {
 
     public static String get(Context context, LogFilter filter) {
         StringBuilder sb = new StringBuilder();
+        BufferedReader br = null;
         try {
             File dest = new File(context.getCacheDir(), "_logcat.log");
             if (dest.exists()) {
@@ -39,7 +41,7 @@ public class LogcatHelper {
             };
             Process process = Runtime.getRuntime().exec(cmd);
             process.waitFor();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(dest)));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(dest)));
             String line;
             while ((line = br.readLine()) != null) {
                 if (filter == null || filter.accept(line)) {
@@ -48,6 +50,8 @@ public class LogcatHelper {
             }
         } catch (IOException ignored) {
         } catch (InterruptedException ignored) {
+        } finally {
+            FileUtils.closeSafely(br);
         }
         return sb.toString();
     }

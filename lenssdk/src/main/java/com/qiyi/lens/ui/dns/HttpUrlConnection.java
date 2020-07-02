@@ -72,7 +72,7 @@ public class HttpUrlConnection {
     }
 
 
-    public UrlCollector build(UrlCollector collection, Invalidate par) {
+    public synchronized UrlCollector build(UrlCollector collection, Invalidate par) {
         if (collection == null) {
             collection = new UrlCollector(par);
         }

@@ -92,17 +92,6 @@ public class ReflectTool {
         }
     }
 
-    private static KeyField getField(Method method) {
-
-        Object value = ReflectTool.getField(method, "artMethod");
-        if (value != null) {
-            int a = (int) ReflectTool.getField(value, "dexCodeItemOffset");
-            int b = (int) ReflectTool.getField(value, "dexMethodIndex");
-            int c = (int) ReflectTool.getField(value, "methodIndex");
-            return new KeyField(a, b, c);
-        }
-        return null;
-    }
 
     static class KeyField {
         int dexCodeItemOffset;

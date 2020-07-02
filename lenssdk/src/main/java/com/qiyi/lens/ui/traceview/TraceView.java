@@ -247,9 +247,7 @@ public class TraceView extends View implements View.OnClickListener {
         }
         this.threadBlockHeight = threadBlockHeight;
 
-        if (info != null) {
-            threadBlockHeight = info.getThreadCount() * threadBlockHeight;
-        }
+        threadBlockHeight = info.getThreadCount() * threadBlockHeight;
 
         int wd = MeasureSpec.getSize(swd);
         setMeasuredDimension(wd, threadBlockHeight + getPaddingTop() + getPaddingBottom());

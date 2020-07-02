@@ -353,17 +353,18 @@ public class TimeStampInfo {
         int count = threadInfos == null ? 0 : threadInfos.length;
         //sort by names
         ArrayList<String> names = new ArrayList<>(count);
-        for (ThreadInfo i : threadInfos) {
-            if (i.threadName != null) {
-                String var = ThreadInfo.getThreadInfo(i.threadId);
-                if (var != null) {
-                    names.add(i.threadName + " : " + var);
-                } else {
-                    names.add(i.threadName);
+        if(threadInfos != null) {
+            for (ThreadInfo i : threadInfos) {
+                if (i.threadName != null) {
+                    String var = ThreadInfo.getThreadInfo(i.threadId);
+                    if (var != null) {
+                        names.add(i.threadName + " : " + var);
+                    } else {
+                        names.add(i.threadName);
+                    }
                 }
             }
         }
-
 
         Collections.sort(names, new Comparator<String>() {
             @Override

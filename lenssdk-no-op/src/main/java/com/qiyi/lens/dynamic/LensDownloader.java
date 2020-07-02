@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
  */
 public class LensDownloader {
     @SuppressLint("StaticFieldLeak")
-    private static LensDownloader sLensDownloader;
+    private volatile static LensDownloader sLensDownloader;
     private ExecutorService mIoPool = Executors.newSingleThreadExecutor();
     private Context mContext;
 

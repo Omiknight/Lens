@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.qiyi.lens.transfer.DataTransferManager;
 import com.qiyi.lens.ui.FloatingPanel;
 import com.qiyi.lens.ui.FullScreenPanel;
+import com.qiyi.lens.utils.FileUtils;
 import com.qiyi.lenssdk.R;
 
 import java.io.File;
@@ -77,12 +78,7 @@ public class DumpDisplayLogPanel extends FullScreenPanel implements View.OnClick
     }
 
     private void doShare() {
-        File file = null;
-        try {
-            file = saveLog();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        File file = saveLog();
         if (file == null) {
             showToast("share failed");
             return;
@@ -106,12 +102,18 @@ public class DumpDisplayLogPanel extends FullScreenPanel implements View.OnClick
         }
     }
 
-    private File saveLog() throws IOException {
+    private File saveLog() {
         File file = new File(context.getCacheDir(), UUID.randomUUID().toString() + ".txt");
-        FileWriter writer = new FileWriter(file, false);
-        writer.write(mLog);
-        writer.flush();
-        writer.close();
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(file, false);
+            writer.write(mLog);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            FileUtils.closeSafely(writer);
+        }
         return file;
     }
 

@@ -25,7 +25,7 @@ public class SelectViewPanel extends FullScreenPanel {
         super(panel);
         enableAnimation = false;
         topView = ViewRootLoader.getCurrentTopView();
-        if (ViewRootLoader.isActivityRoot(topView)) {
+        if (topView != null && ViewRootLoader.isActivityRoot(topView)) {
             topView = topView.findViewById(android.R.id.content);
             isActivityRoot = true;
         }

@@ -22,9 +22,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class SharedPreferencesHelper {
 
-    private static final Object sInitLock = new Object();
-    private static Map<String, SharedPreferencesHelper> sPreferences =
-            new HashMap<>();
+    private static final Object sInitLock = new int[0];
+    private static Map<String, SharedPreferencesHelper> sPreferences = new HashMap<>();
 
     private ConcurrentMap<String, String> mCurrentSharedPreferences =
             new ConcurrentHashMap<>();
@@ -34,7 +33,6 @@ public class SharedPreferencesHelper {
 
     //使用前须清除 mAllSharedPreferencesFiles.clear()
     private List<String> mAllSharedPreferencesFiles = new ArrayList<>();
-    private ConcurrentMap<String, String> mSharedPreferencesMap = new ConcurrentHashMap<>();
 
     private List<SPItem> spItemList;
 

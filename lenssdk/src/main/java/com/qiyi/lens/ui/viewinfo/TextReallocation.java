@@ -31,15 +31,16 @@ public class TextReallocation {
 
         if (info instanceof MultiTextInfo) {
             RectF rect = _host.getCurrentViewRect();
-            info.setRange(rect.left, rect.right, rect.top, rect.bottom);
-            info.measure(x, y);
-            int wd = info.getWidth();
-            int ht = info.getHeight();
-            if (wd > rect.width() || ht > rect.height()) {
-                info.setRange(0, _swd, 0, _sht);
+            if(rect != null) {
+                info.setRange(rect.left, rect.right, rect.top, rect.bottom);
                 info.measure(x, y);
+                int wd = info.getWidth();
+                int ht = info.getHeight();
+                if (wd > rect.width() || ht > rect.height()) {
+                    info.setRange(0, _swd, 0, _sht);
+                    info.measure(x, y);
+                }
             }
-
         } else {
             info.measure(x, y);
         }
