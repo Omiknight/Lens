@@ -67,7 +67,7 @@ public class DataPool {
         return dataPool;
     }
 
-    public void clear() {
+    public synchronized void clear() {
         pool.clear();
     }
 

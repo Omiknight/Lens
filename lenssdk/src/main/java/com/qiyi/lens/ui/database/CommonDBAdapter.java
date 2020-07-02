@@ -106,8 +106,11 @@ public class CommonDBAdapter extends RecyclerView.Adapter<CommonDBAdapter.ViewPo
     @Override
     public void onClick(View v) {
         if (listener != null) {
-            int position = (int) v.getTag(R.id.db_recycler_adapter_id);
-            listener.onItemClick(position, data.get(position));
+            Object var =  v.getTag(R.id.db_recycler_adapter_id);
+            if(var != null) {
+                int position = (int) var;
+                listener.onItemClick(position, data.get(position));
+            }
         }
     }
 

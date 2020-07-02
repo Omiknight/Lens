@@ -95,15 +95,11 @@ public class SharedPreferencePanel extends FullScreenPanel implements UIStateCal
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position >= 0 && position < mAdapter.getCount()) {
-//                    if (mEditorPanel == null) {
-//                        mEditorPanel = new EditorPanel(mFloatingPanel);
-//                    }
                     SPItem item = mAdapter.getItem(position);
-//                    mEditorPanel.bindData(item);
-//                    mEditorPanel.show();
-
-                    Value value = parse(item);
-                    showSubPanel(item.key, value);
+                    if (item != null) {
+                        Value value = parse(item);
+                        showSubPanel(item.key, value);
+                    }
                 }
 
 

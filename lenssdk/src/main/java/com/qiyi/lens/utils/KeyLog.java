@@ -434,7 +434,6 @@ public class KeyLog {
         if (log != null) {
             Handler handler = log.handler;
             if (handler != null) {
-                handler.getLooper();
                 handler.getLooper().quit();
             }
         }

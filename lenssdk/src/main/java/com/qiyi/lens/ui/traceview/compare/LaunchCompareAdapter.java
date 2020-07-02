@@ -80,7 +80,7 @@ public class LaunchCompareAdapter extends BaseAdapter {
             convertView.setBackgroundColor(Color.TRANSPARENT);
             viewHolder.right.render(null, ' ');
         }
-        String tag = item.first != null ? item.first.getTag() : item.second.getTag();
+        String tag = item.first != null ? item.first.getTag() : item.second != null ? item.second.getTag() : "";
         if (tag.equals(expandTag)) {
             viewHolder.expand.setVisibility(View.VISIBLE);
             viewHolder.expand.removeAllViews();
