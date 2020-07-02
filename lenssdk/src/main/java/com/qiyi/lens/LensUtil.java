@@ -393,7 +393,7 @@ public class LensUtil {
                     SharedPreferenceUtils.getSharedPreferences(LensConfig.SP_LENS_KEY_PERMISSION_ENABLE, context, false);
 
             // 当不可用的时候,  设置为false , 而不是强行的关闭选项
-            if (!shouldEnableHook) {
+            if (!shouldEnableHook && hookImpl != null) {
                 if (keyLogEnabled) {
                     keyLogEnabled = false;
                     SharedPreferenceUtils.setSharedPreferences(LensConfig.SP_KEY_LOG_INFO, false, context);
