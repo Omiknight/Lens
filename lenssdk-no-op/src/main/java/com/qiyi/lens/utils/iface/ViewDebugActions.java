@@ -4,6 +4,8 @@ import androidx.annotation.RestrictTo;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.qiyi.lens.LensUtil;
+
 public class ViewDebugActions {
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public ViewDebugActions(ViewGroup viewGroup) {
@@ -36,5 +38,9 @@ public class ViewDebugActions {
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public void dismiss() {
+    }
+
+    public void setViewDebugInfo(View view, String info, int color) {
+
     }
 }

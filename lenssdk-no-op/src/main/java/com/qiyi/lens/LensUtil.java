@@ -26,6 +26,7 @@ import com.qiyi.lens.utils.configs.DebugInfoConfig;
 import com.qiyi.lens.utils.configs.NetworkAnalyzeConfig;
 import com.qiyi.lens.utils.iface.ICustomBlockFactory;
 import com.qiyi.lens.utils.iface.IFragmentHandle;
+import com.qiyi.lens.utils.iface.IHookFrameWork;
 import com.qiyi.lens.utils.iface.IJumpAction;
 import com.qiyi.lens.utils.iface.IObjectDescriptor;
 import com.qiyi.lens.utils.iface.IUIVerifyFactory;
@@ -291,7 +292,16 @@ public class LensUtil {
             return this;
         }
 
+        public ConfigBuilder setHookFrameWorkImpl(IHookFrameWork frameWorkImpl) {
+            return this;
+        }
+
+        private void buildHookPlugin(Context context){
+            return;
+        }
+
         public ConfigBuilder build(Context context) {
+            buildHookPlugin(context);
             return this;
         }
 
