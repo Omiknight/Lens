@@ -196,9 +196,9 @@ public class KeyLog {
                             if (currentCacheFilePos == 0) {
                                 break;
                             } else {
+                                FileUtils.closeSafely(reader);
                                 File cacheFile1 = createFile(CACHE_FILE_NAME_TEMP[(currentCacheFilePos - 1) % 2]);
                                 if (cacheFile1 != null) {
-                                    FileUtils.closeSafely(reader);
                                     reader = new BufferedReader(new FileReader(cacheFile1));
                                 } else {
                                     reader = null;

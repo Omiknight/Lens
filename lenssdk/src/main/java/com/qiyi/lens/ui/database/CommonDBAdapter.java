@@ -117,8 +117,11 @@ public class CommonDBAdapter extends RecyclerView.Adapter<CommonDBAdapter.ViewPo
     @Override
     public boolean onLongClick(View v) {
         if (longListener != null) {
-            int position = (int) v.getTag(R.id.db_recycler_adapter_id);
-            return longListener.onItemLongClick(position, data.get(position));
+            Object var = v.getTag(R.id.db_recycler_adapter_id);
+            if(var != null) {
+                int position = (int) var;
+                return longListener.onItemLongClick(position, data.get(position));
+            }
         }
         return false;
     }
