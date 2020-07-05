@@ -66,7 +66,7 @@ LensUtil.buildConfig()
 ```
 
 2. Lens 发布到maven 仓库：  
-可在`build_var.gradle` 中配置版本信息，添加 `Maven Url` , `mavenRepo` 信息。
+可在`build_var.gradle` 中配置版本信息，添加 `Maven Url` , `mavenRepo` 信息。 修改 `sdkVersion` , 运行 lenssdk-no-op & lenssdk 下的`uploadArchives` 任务，将sdk 推送到maven 仓库。  
 ```Groovy
  		mavenRepoUrl = 'http://jfrog.cloud.qiyi.domain/XXXXXX'
     mavenRepo = [
