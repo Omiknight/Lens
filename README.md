@@ -1,7 +1,7 @@
 Lens
 =======
 
-### 简介（wiki 完善中）  
+### 简介（wiki 搭建中）  
 Lens 是一款功能强大的Android开发SDK。目前支持界面分析，任务分析, 网络分析，DataDump，DataExplorer等等功能。网络分析、任务分析等功能需要依赖hook框架。Lens 自身不支持hook能力，需注入Lens Hook Framework  实现后，才可使用hook相关的功能。  
 
 Lens 是一个开放平台，任何可以为产品开发阶段赋能的创意，都可以作为一个独立的模块向里面添加。  
@@ -45,9 +45,7 @@ dependencies {
 ```
 
 #### Usage
-
-可参考Demo 中LensApplicationDelegate 实现配置。（Wiki 中会详细说明方法含义）
-
+1. 可参考Demo 中LensApplicationDelegate 实现配置。（Wiki 中会详细说明方法含义）
 ```Java
 LensUtil.buildConfig()
                 .defaultOpen(false)
@@ -64,6 +62,16 @@ LensUtil.buildConfig()
                 .initAsPluginMode(Lens.isSDKMode())
                 .enableViewInfo(true)
                 .show(Lens.wrapContext(mApplication), UIUtils.getScreenWidth(mApplication) / 5 * 3);
+```
+
+2. Lens 发布到maven 仓库：  
+可在`build_var.gradle` 中配置版本信息，添加 `Maven Url` , `mavenRepo` 信息。
+```Groovy
+ 		mavenRepoUrl = 'http://jfrog.cloud.qiyi.domain/XXXXXX'
+    mavenRepo = [
+    'http://jfrog.cloud.qiyi.domain/XXXXXX',
+    'http://jfrog.cloud.qiyi.domain/XXX',
+    ]
 ```
 
 #### License  
