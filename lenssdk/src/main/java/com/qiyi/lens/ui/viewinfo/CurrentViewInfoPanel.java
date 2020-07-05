@@ -161,7 +161,10 @@ public class CurrentViewInfoPanel extends FullScreenPanel implements ObjectField
     public void onDismiss() {
         super.onDismiss();
         if (mView != null && clickProxy != null && clickProxy.handle != null) {
-            mView.setOnClickListener(clickProxy.handle.get());
+            View.OnClickListener clickListener = clickProxy.handle.get();
+            if (clickListener != null) {
+                mView.setOnClickListener(clickProxy.handle.get());
+            }
         }
         mView = null;
         viewTree = null;
@@ -326,8 +329,8 @@ public class CurrentViewInfoPanel extends FullScreenPanel implements ObjectField
                 }
             }
         } else {
-            if(var instanceof CharSequence) {
-                view.setText((CharSequence)var);
+            if (var instanceof CharSequence) {
+                view.setText((CharSequence) var);
             } else {
                 view.setText(var.getClass().getSimpleName());
             }
