@@ -38,9 +38,11 @@ buildscript {
             }
         }
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.novoda:bintray-release:0.9.2'
     }
 }
 
@@ -63,9 +65,15 @@ uploadArchives {
 
         pom.project {
             packaging 'jar'
-            groupId "qiyi.lens"
+            groupId "com.iqiyi.lens"
             artifactId "taskmonitor"
             version "${rootProject.ext.taskMonitorVersion}"
         }
     }
 }
+
+ext {
+    artifactId = 'taskmonitor'
+    publishVersion = "${rootProject.ext.taskMonitorVersion}"
+}
+apply from: '../lens_bintray.gradle'

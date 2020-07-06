@@ -1,0 +1,16 @@
+apply plugin: 'com.novoda.bintray-release'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+publish {
+    userOrg = ''
+    repoName = 'lens'
+    groupId = 'com.iqiyi.lens'
+    artifactId = project.ext.artifactId
+    publishVersion = project.ext.publishVersion
+    desc = 'Lens Sdk'
+    website = 'https://github.com/iqiyi/Lens'
+    dryRun = false
+    bintrayUser = properties.getProperty("bintray.user")
+    bintrayKey = properties.getProperty("bintray.apikey")
+}

@@ -18,9 +18,14 @@ uploadArchives {
 
         pom.project {
             packaging 'jar'
-            groupId 'qiyi.lens'
+            groupId 'com.iqiyi.lens'
             artifactId "annotation"
             version "${rootProject.ext.annotationVersion}"
         }
     }
 }
+ext {
+    artifactId = 'annotation'
+    publishVersion = "${rootProject.ext.annotationVersion}"
+}
+apply from: '../lens_bintray.gradle'
