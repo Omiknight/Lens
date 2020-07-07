@@ -49,13 +49,3 @@ uploadArchives {
     }
 
 }
-
-ext {
-    artifactId = POM_ARTIFACT_ID
-    publishVersion = version
-}
-apply from: '../lens_bintray.gradle'
-
-
-
-

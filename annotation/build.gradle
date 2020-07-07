@@ -24,8 +24,3 @@ uploadArchives {
         }
     }
 }
-ext {
-    artifactId = 'annotation'
-    publishVersion = "${rootProject.ext.annotationVersion}"
-}
-apply from: '../lens_bintray.gradle'
