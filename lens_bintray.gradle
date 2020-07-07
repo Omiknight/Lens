@@ -1,7 +1,11 @@
 apply plugin: 'com.novoda.bintray-release'
 
 Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def localProperties = 'local.properties'
+if (project.rootProject.name == 'buildSrc') {
+    localProperties = '../' + localProperties
+}
+properties.load(project.rootProject.file(localProperties).newDataInputStream())
 publish {
     userOrg = ''
     repoName = 'lens'
