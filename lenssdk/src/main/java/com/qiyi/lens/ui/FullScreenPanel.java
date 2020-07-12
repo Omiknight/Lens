@@ -143,13 +143,12 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
 
     @Override
     public void dismiss() {
-        LL.d("YSHSYS", "dismiss called" + enableAnimation + "  " + animation);
-        if (enableAnimation) {
+        // fix bug : quickly press back twice , animation runs twice.
+        if (enableAnimation && dismissAnimation == null) {
 
             dismissAnimation = new ViewInAnimation(this, 0, screenWidth, 0, 0) {
                 @Override
                 public void onEnd() {
-                    LL.d("YSHSYS", "ani end");
                     getDecorView().setVisibility(View.GONE);
                     FullScreenPanel.super.dismiss();
                     onDismiss();
@@ -162,7 +161,6 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
                 dismissAnimation.start();
             }
         } else {
-            LL.d("YSHSYS", "no ani dismiss ");
             super.dismiss();
             onDismiss();
         }

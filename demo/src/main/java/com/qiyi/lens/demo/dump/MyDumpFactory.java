@@ -26,6 +26,9 @@ import com.qiyi.lens.dump.DumpResultHandler;
 import com.qiyi.lens.dump.ILogDumper;
 import com.qiyi.lens.dump.ILogDumperFactory;
 
+import org.qiyi.basecore.taskmanager.TaskManager;
+import org.qiyi.basecore.taskmanager.TaskRecorder;
+
 import java.lang.annotation.Annotation;
 
 /**
@@ -36,7 +39,7 @@ public class MyDumpFactory implements ILogDumperFactory, DumpResultHandler {
     public ILogDumper create() {
         return AnnotationLogDumper.create(this)
                 .add(Dump.class, LensApp.getInstance(), StaticDump.class)
-                .add(TMDump.class);
+                .add("TM",TMDump.class, TaskManager.getInstance(), TaskRecorder.class);
     }
 
     @Override
