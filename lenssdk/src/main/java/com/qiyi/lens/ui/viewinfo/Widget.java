@@ -35,7 +35,7 @@ public class Widget {
     private Widget parent;
     private int offset;
     // debug info : bg 242424 ;
-    private final static int TEXT_DEBUG_INFO_COLOR = 0x4169E1;
+    private final static int TEXT_DEBUG_INFO_COLOR = 0xFFFFFFFF;
     private DrawKit mKit;
 
     Widget(DrawKit drawKit, View view, int offset) {

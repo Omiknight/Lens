@@ -19,6 +19,7 @@ package com.qiyi.lens.demo;
 
 import android.view.View;
 
+import com.qiyi.lens.LensUtil;
 import com.qiyi.lens.utils.iface.IViewInfoHandle;
 import com.qiyi.lens.utils.iface.ObjectDescription;
 import com.qiyi.lens.utils.iface.ViewDebugActions;
@@ -45,6 +46,7 @@ public class ViewInfoHandle implements IViewInfoHandle {
     public void onViewDebug(final ViewDebugActions actions, final View view) {
         if (view instanceof MYTextView) {
 //            actions.setViewDebugInfo(view, "this is the view debug info");
+            LensUtil.setViewDebugInfo(view, "Here is the debug info ");
             actions.add("reload", new Runnable() {
                 @Override
                 public void run() {
