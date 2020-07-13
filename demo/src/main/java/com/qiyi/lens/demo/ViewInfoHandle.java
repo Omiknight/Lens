@@ -46,7 +46,6 @@ public class ViewInfoHandle implements IViewInfoHandle {
     public void onViewDebug(final ViewDebugActions actions, final View view) {
         if (view instanceof MYTextView) {
 //            actions.setViewDebugInfo(view, "this is the view debug info");
-            LensUtil.setViewDebugInfo(view, "Here is the debug info ");
             actions.add("reload", new Runnable() {
                 @Override
                 public void run() {

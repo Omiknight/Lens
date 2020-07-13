@@ -19,6 +19,7 @@ package com.qiyi.lens.ui.viewinfo;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.Layout;
 import android.view.View;
@@ -142,13 +143,17 @@ public class Widget {
                 RectF rect = getRect();
                 Layout layout = textView.getLayout();
                 if (layout != null) {
-                    int ascent = layout.getLineAscent(0);
-                    float start = textView.getBaseline() + rect.top - layout.getTopPadding() + textView.getPaddingTop();
-                    RectF first = new RectF(rect.left, start + ascent, rect.right,
-                            start + ascent + textView.getTextSize());
-                    float lineSpacing = textView.getLineHeight() - textView.getTextSize();
-                    float top2 = first.bottom + lineSpacing;
-                    RectF second = new RectF(rect.left, top2, rect.right, top2 + textView.getTextSize());
+
+                    float lineExtra = (textView.getLineHeight() - textView.getTextSize())/2;
+                    float offset = rect.top + Math.abs(layout.getTopPadding());//textView.getPaddingTop() - layout.getTopPadding()
+                    float baseline = layout.getLineBaseline(0) + offset;
+                    Paint.FontMetrics fontMetrics = textView.getPaint().getFontMetrics();
+                    RectF first = new RectF(rect.left, baseline + fontMetrics.ascent + lineExtra , rect.right,
+                            baseline +fontMetrics.descent - lineExtra);
+
+                    baseline = layout.getLineBaseline(1) + offset;
+                    RectF second = new RectF(rect.left, baseline + fontMetrics.ascent + lineExtra  , rect.right, baseline + fontMetrics.descent - lineExtra);
+
                     mKit.drawDistance(canvas, first, second);
                     mKit.drawArea(canvas, first, Color.WHITE);
                     mKit.drawArea(canvas, second, Color.WHITE);
