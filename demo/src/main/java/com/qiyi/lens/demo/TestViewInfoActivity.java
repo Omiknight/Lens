@@ -26,12 +26,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.qiyi.lens.LensUtil;
+import com.qiyi.lens.ui.viewinfo.json.Frame;
 import com.qiyi.lens.utils.LL;
 
 import java.util.ArrayList;
@@ -116,6 +118,12 @@ public class TestViewInfoActivity extends AppCompatActivity {
         Toast.makeText(this, "Test toast", Toast.LENGTH_LONG).show();
 
         LensUtil.watchObject("img", imageView);
+
+
+        View view = new View(this);
+        view.setBackgroundColor(0xccffff);
+        FrameLayout fr = findViewById(android.R.id.content);
+        fr.addView(view);
 
     }
 
