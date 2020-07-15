@@ -14,7 +14,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(path: ':annotation')
     compileOnly "androidx.recyclerview:recyclerview:1.0.0"
     compileOnly "androidx.legacy:legacy-support-v4:1.0.0"
     //for network analyse

@@ -13,7 +13,6 @@ android {
 }
 
 dependencies {
-    api project(path: ':annotation')
     compileOnly 'androidx.annotation:annotation:1.0.0'
 }
 
