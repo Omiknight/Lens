@@ -25,10 +25,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-
-import androidx.appcompat.app.AlertDialog;
-
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -36,6 +34,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.qiyi.lens.LensUtil;
 
@@ -120,7 +120,39 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
             }
 
             @Override
+            public int getViewTypeCount() {
+                return 2;
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                super.getItemViewType(position);
+                if (position == 0) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+
+            // used in ViewPick row select demo：
+            private View inflate0(View view, ViewGroup viewGroup) {
+                if (view == null) {
+                    view = LayoutInflater.from(viewGroup.getContext()).
+                            inflate(R.layout.test_list_item_view, viewGroup, false);
+
+                    return view;
+                }
+                // do nothing
+                return view;
+            }
+
+
+            @Override
             public View getView(final int i, View view, ViewGroup viewGroup) {
+
+                if (i == 0) {
+                    return inflate0(view, viewGroup);
+                }
 
                 if (i == 1) {
                     linkd.add("ksj");
@@ -193,7 +225,7 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
     }
 
 
-    private void requet(){
+    private void requet() {
         new TickTask() {
             @Override
             public void onTick(int loopTime) {
@@ -205,7 +237,8 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
     }
 
     OkHttpClient okHttpClient = new OkHttpClient();
-    private void doRequest(){
+
+    private void doRequest() {
         Request request = new Request.Builder().url("https://www.baidu.com").build();
         try {
             okHttpClient.newCall(request).execute();
